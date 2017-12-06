@@ -342,6 +342,7 @@ function mapGoogle(arrayWithData) {
     if (arrayWithData.length != 1) {
         map.fitBounds(bounds);
     }
+    location.href = '#googleMap'; // Move the view to the div
 }
 
 /**
