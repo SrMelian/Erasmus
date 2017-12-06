@@ -1,0 +1,4 @@
+- El centrado está hecho sobre las marcas que se muestren, mediante utilidades de
+google maps.
+- Posiblidad de añadir una movilidad mediante su selección en el mapa, se usa haciendo
+click en Añadir registro.
