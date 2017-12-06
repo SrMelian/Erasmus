@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: playHtml.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: playHtml.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// #region Play with Elements from the HTML
+
+/**
+ * Create a input element with the following structure: p>label>span+input.
+ * Or a button input type: button element with the following structure:
+ * p>input:button
+ * This structure allows better accessibility.
+ * @param {(Object|string)} parent Parent where you want put the tag HTML,
+ * accept a string with a id, or accept the element node parent
+ * @param {string} labelContent Content will be the text the one that
+ * accompanies the tag, if typeValue is "button", that will be the button's text
+ * @param {string} typeValue Value for the "type" attribute of input tag
+ * @param {string} idValue Value for the "id" attribute of input tag
+ * @return {HTMLParagraphElement} Return the element p, which contains the rest
+ * of tags
+ */
+function createInputTag(parent, labelContent, typeValue, idValue) {
+    var paragraphTag = document.createElement('p');
+
+    var labelTag;
+    if (typeValue == 'button') {
+        labelTag = document.createElement('input');
+        labelTag.type = typeValue;
+        labelTag.value = labelContent;
+        labelTag.id = idValue;
+    }
+
+    if (typeValue != 'button') {
+        labelTag = document.createElement('label');
+        labelTag.setAttribute('for', idValue);
+        labelTag.innerText = labelContent;
+
+        var inputTag = document.createElement('input');
+        inputTag.type = typeValue;
+        inputTag.id = idValue;
+    }
+    paragraphTag.appendChild(inputTag);
+    paragraphTag.appendChild(labelTag);
+    if (typeof (parent) == 'string') {
+        parent = document.getElementById(parent);
+    }
+    parent.appendChild(paragraphTag);
+    return paragraphTag;
+}
+
+/**
+ * Set one or more attributes to a element written in the HTML
+ * @param {(Object|string)} id Id or nodeElement where want add the attribute
+ * @param {Array.&lt;Attributes>} attributes Attributes to add to the tag
+ */
+function addAttribute(id, ...attributes) {
+    var attributesMap = new Map(attributes);
+
+    for (var [key, value] of attributesMap.entries()) {
+        if (typeof (id) == 'string') {
+            id = document.getElementById(id);
+        }
+        id.setAttribute(key, value);
+    }
+}
+
+/**
+ * Create a HTML element with a id, inside of a parent
+ * @param {(Object|string)} parent Parent where you want put the tag HTML,
+ * accept a string with a id, or accept the element node parent
+ * @param {string} tagName Element tag name
+ * @param {?string} idValue Value id, could be null
+ * @param {?string} classValue
+ * @return {HTMLElement} The element which has just been created
+ */
+function createTag(parent, tagName, idValue, classValue) {
+    var tagElement = document.createElement(tagName);
+    if (idValue != null) {
+        tagElement.id = idValue;
+    }
+    if (classValue != null) {
+        tagElement.className = classValue;
+    }
+    if (typeof (parent) == 'string') {
+        parent = document.getElementById(parent);
+    }
+    parent.appendChild(tagElement);
+    return tagElement;
+}
+
+/**
+ * Remove a element HTML
+ * @param {(Object|string)} parent Parent where you want remove the tag HTML,
+ * accept a string with a id, or accept the element node parent
+ * @param {(Object|string)} myself Node which you want remove, accept a string
+ * with a id, or accept the element node parent
+ */
+function removeTag(parent, myself) {
+    if (typeof (parent) == 'string') {
+        parent = document.getElementById(parent);
+    }
+    if (typeof (myself) == 'string') {
+        myself = document.getElementById(myself);
+    }
+    parent.removeChild(myself);
+}
+
+/**
+ * Clone and add a node, the parent is the origin and destination
+ * @param {(Object|string)} parent Parent where and to where you want copy and
+ * add the tag HTML, accept a string with a id, or accept the element node
+ * parent
+ * @param {(Object|string)} node Node which you want duplicate, accept a
+ * string with a id, or accept the element node parent
+ */
+function copyPasteTag(parent, node) {
+    if (typeof (parent) == 'string') {
+        parent = document.getElementById(parent);
+    }
+    if (typeof (node) == 'string') {
+        node = document.getElementById(node);
+    }
+    var newNode = node.cloneNode(true);
+    parent.appendChild(newNode);
+}
+
+/**
+ * A function to remove a elementHTML and all the childNodes
+ * @param {HTMLElement} node Node to remove
+ * @param {boolean} removeItSelf True if wants remove the param node
+ * @see {@link clear}
+ */
+function removeTags(node, removeItSelf) {
+    while (node.hasChildNodes()) {
+        clear(node.firstChild);
+    }
+    if (removeItSelf) {
+        node.remove();
+    }
+}
+
+/**
+ * Function to help removeTags function
+ * @param {node} node
+ */
+function clear(node) {
+    while (node.hasChildNodes()) {
+        clear(node.firstChild);
+    }
+    node.parentNode.removeChild(node);
+}
+
+// #endregion
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#accordingToFilters">accordingToFilters</a></li><li><a href="global.html#addAttribute">addAttribute</a></li><li><a href="global.html#addMobility">addMobility</a></li><li><a href="global.html#addToObject">addToObject</a></li><li><a href="global.html#applyFilter">applyFilter</a></li><li><a href="global.html#beautifyArray">beautifyArray</a></li><li><a href="global.html#clear">clear</a></li><li><a href="global.html#closeModal">closeModal</a></li><li><a href="global.html#copyPasteTag">copyPasteTag</a></li><li><a href="global.html#createCheckBox">createCheckBox</a></li><li><a href="global.html#createInputTag">createInputTag</a></li><li><a href="global.html#createOption">createOption</a></li><li><a href="global.html#createTag">createTag</a></li><li><a href="global.html#dbLocal">dbLocal</a></li><li><a href="global.html#downFromLocalStorage">downFromLocalStorage</a></li><li><a href="global.html#enabledButton">enabledButton</a></li><li><a href="global.html#flipCard">flipCard</a></li><li><a href="global.html#getDataFromCoords">getDataFromCoords</a></li><li><a href="global.html#loadArray">loadArray</a></li><li><a href="global.html#loadEvents">loadEvents</a></li><li><a href="global.html#loadInputs">loadInputs</a></li><li><a href="global.html#loadMapModal">loadMapModal</a></li><li><a href="global.html#mapGoogle">mapGoogle</a></li><li><a href="global.html#placeMarker">placeMarker</a></li><li><a href="global.html#removeTag">removeTag</a></li><li><a href="global.html#removeTags">removeTags</a></li><li><a href="global.html#selectAll">selectAll</a></li><li><a href="global.html#showModal">showModal</a></li><li><a href="global.html#upToLocalStorage">upToLocalStorage</a></li><li><a href="global.html#validityRequiredInput">validityRequiredInput</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Dec 06 2017 21:58:45 GMT+0000 (Hora estándar GMT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
